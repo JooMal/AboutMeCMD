@@ -40,10 +40,12 @@ function create ()
 	get_keys();
 }
 
+var textEntry;
 function get_keys() {
-	var textEntry = game.add.text(30,425, '', textStyle_input);
+	//var textEntry = game.add.text(30,425, '', textStyle_input);
 	var recentInput = "";
-
+	
+	textEntry = game.add.text(30,425, '', textStyle_input);
     game.input.keyboard.addCallbacks(this, null, null, function(char) {   
     	var event = char.charCodeAt();
     	
@@ -56,9 +58,15 @@ function get_keys() {
     		recentInput = "";
     		return;
     	}
+    	if(event == 92) {
+    		console.log("delete");
+    		recentInput = recentInput.substring(0, recentInput.length-1);
+    		textEntry.text = recentInput;
+    	}
     	else {
+    		console.log(event);
     		recentInput += char;
-    		textEntry = game.add.text(30,425, recentInput, textStyle_input);
+    		textEntry.text = recentInput;
     		//textEntry.text += char;
     	}
     });
@@ -81,6 +89,7 @@ function drawInputBox() {
 	game.add.image(0,420,"inputBox");
 	game.add.text(10, 420, ":", textStyle_input_mark);
 	game.add.image(0,0,"logo");
+	textEntry = game.add.text(30,425, '', textStyle_input);
 }
 
 function moveUpEntries() {
@@ -134,7 +143,7 @@ function printCommand(comm) {
 }
 
 function command(recentInput) {
-	var command_list = "you can use : /help /stack /goal /clear";
+	var command_list = "you can use : /help /stack /goal /hello /clear";
 	var temp_line = line+1;
 	
 	if(recentInput == "/help") {
@@ -147,6 +156,9 @@ function command(recentInput) {
 		return "Studying for Backend Developer, Living for mindful life";
 	}
 	else if(recentInput == "/joomal") {
+		return "me!";
+	}
+	else if(recentInput == "/hello") {
 		return "Hello world!";
 	}
 	else if(recentInput == "/clear") {
@@ -158,5 +170,10 @@ function command(recentInput) {
 }
 
 function clear() {
-	this.scene.restart();
+	for (var i = 0; i < (entryArray.mark).length; i++) {
+		console.log("entry mark : "+entryArray.mark[i]);
+		(entryArray.mark[i]).text = '';
+		(entryArray.content[i]).text = '';
+	}
+	line = -2;
 }

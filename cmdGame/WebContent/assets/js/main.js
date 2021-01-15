@@ -33,15 +33,14 @@ function create ()
 	
 	var textEntry = this.add.text(20,420, '', textStyle_input);
 	var recentInput = "";
- 
+
     this.input.keyboard.addCallbacks(this, null, null, function(char) {
     	var event = char.charCodeAt();
-    	console.log(event);
     	
     	if(event == 13) {
     		recentInput = textEntry.text;
     		textEntry.text = '';
-    		console.log(recentInput);
+    		console.log("input: "+recentInput);
     		make_line(recentInput);
     	}
     	else {
@@ -54,22 +53,24 @@ var line_h = 20;
 var line = 0;
 var input_line = 0;
 
-// legacy : change input_history to QUEUE
 var input_history = [];
 var MAX_Q_LEN = 20;
 
-function structEntryArray() {
-	var mark;
-	var content;
+var entryArray = {
+	mark : [],
+	content : []
 }
-var entryArray = new Queue();
-function initEntryArray() {
-	for (var i = 0; i < MAX_Q_LEN; i++) {
-		entryArray[i] = new structEntryArray();
+
+function moveUpEntries() {
+	
+	for (var i = 0; i < (entryArray.mark).length; i++) {
+		console.log("entry mark : "+entryArray.mark[i]);
+		(entryArray.mark[i]).y -= 20;
+		(entryArray.content[i]).y -= 20;
 	}
 }
 
-function make_line(recentInput) {
+function make_line(recentInput) {	
 	textStyle_input = { font: "16px Courier", fill: "#fff"};
 	textStyle_comm = { font : "16px Courier", fill: "#50BCDF"};
 	
@@ -86,8 +87,11 @@ function printUserInput(recentInput) {
 	textStyle_input = { font: "16px Courier", fill: "#fff"};
 	textStyle_line = { font: "16px Courier", fill: "#ffff00"};
 	
-	game.add.text(10, line_h*line, input_line, textStyle_line);
-	game.add.text(20, line_h*line, recentInput, textStyle_input);	
+	var markEntry = game.add.text(10, line_h*line, input_line, textStyle_line);
+	var userInputEntry = game.add.text(20, line_h*line, recentInput, textStyle_input);
+	
+	(entryArray.mark).push(markEntry);
+	(entryArray.content).push(userInputEntry);
 }
 
 function printCommand(comm) {
@@ -96,8 +100,16 @@ function printCommand(comm) {
 	textStyle_comm = { font : "16px Courier", fill: "#50BCDF"};
 	textStyle_line = { font: "16px Courier", fill: "#ffff00"};
 	
-	game.add.text(10, line_h*line, ">", textStyle_comm);
-	game.add.text(20, line_h*line, comm, textStyle_line);	
+	var markEntry = game.add.text(10, line_h*line, ">", textStyle_comm);
+	var commInputEntry = game.add.text(20, line_h*line, comm, textStyle_line);	
+	
+	(entryArray.mark).push(markEntry);
+	(entryArray.content).push(commInputEntry);
+	
+	if(line >= MAX_Q_LEN) {
+		console.log("display is full. move up entries");
+		moveUpEntries();
+	}
 }
 
 function command(recentInput) {

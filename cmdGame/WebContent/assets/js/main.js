@@ -174,6 +174,6 @@ function clear() {
 		console.log("entry mark : "+entryArray.mark[i]);
 		(entryArray.mark[i]).text = '';
 		(entryArray.content[i]).text = '';
-	}
+	} 
 	line = -2;
 }

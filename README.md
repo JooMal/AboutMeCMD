@@ -2,7 +2,7 @@
 
 ### 소개
 
-<img src="img/aboutMeWithCmd_clip.mp4"></img>
+![clip_video](img src="img/aboutMeWithCmd_clip.mp4")
 
 ### 사용법
 

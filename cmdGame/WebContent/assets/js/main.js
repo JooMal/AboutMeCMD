@@ -1,33 +1,37 @@
-var game = new Phaser.Game(600, 450, Phaser.AUTO, null, {preload:preload, create:create});
-var textStyle_info ={ font: "16px sans-serif", fill: "#46c0f9", align: "center" };
-var textStyle_input_mark = { font: "bold 16px sans-serif", fill: "#fff", align: "center" };
-var textStyle_input = { font: "16px Courier", fill: "#fff"};
-var textStyle_line_mark = { font: "16x Courier", fill: "#ffff00"};
-var textStyle_comm_mark = { font: "16x Courier", fill: "#50BCDF"};
-var textStyle_comm = { font: "14px Courier", fill: "#ffff00"};
-var textEntry;
-var line_h = 20;
-var line = 0;
-var input_line = 0;
-var MAX_LINE_NUM = 20;
-var entryArray = {
-	mark : [],
-	content : []
+class Queue {
+  constructor() {
+	    this._arr = [];
+	  }
+	  enqueue(item) {
+	    this._arr.push(item);
+	  }
+	  dequeue() {
+	    return this._arr.shift();
+	  }
+	  size() {
+		  return this._arr.length;
+	  }
 }
 
+var game = new Phaser.Game(600, 450, Phaser.AUTO, null, {preload:preload, create:create});
 
 function preload() {
 	game.load.image("logo", "assets/images/logo.jpg");
 	game.load.image("inputBox", "assets/images/cmdGameInputBox.jpg");
 }
-
 function create ()
 {
-	console.log("---create cmd starts---");
+	console.log("create game");
 	game.stage.backgroundColor = "#061F27";
 	
 	var cursors = this.input.keyboard.createCursorKeys();
 
+	textStyle_info ={ font: "16px sans-serif", fill: "#46c0f9", align: "center" };
+	textStyle_input_mark = { font: "bold 16px sans-serif", fill: "#fff", align: "center" };
+	textStyle_input = { font: "16px Courier", fill: "#fff"};
+	textStyle_line = { font: "14x Courier", fill: "#ffff00"};
+	
+	console.log("420");
 	game.add.image(0,420,"inputBox");
 	this.add.text(10, 420, ":", textStyle_input_mark);
 	this.add.text(470, 0, "ABOUT JOOMAL", textStyle_info); // if fail to load logo image, this text will be displayed
@@ -36,7 +40,9 @@ function create ()
 	get_keys();
 }
 
+var textEntry;
 function get_keys() {
+	//var textEntry = game.add.text(30,425, '', textStyle_input);
 	var recentInput = "";
 	
 	textEntry = game.add.text(30,425, '', textStyle_input);
@@ -44,24 +50,42 @@ function get_keys() {
     	var event = char.charCodeAt();
     	
     	if(event == 13) {
+    		//recentInput = textEntry.text;
     		textEntry.text = '';
+    		console.log("input: "+recentInput);
     		make_line(recentInput);
     		drawInputBox();
     		recentInput = "";
     		return;
     	}
     	if(event == 92) {
+    		console.log("delete");
     		recentInput = recentInput.substring(0, recentInput.length-1);
     		textEntry.text = recentInput;
     	}
     	else {
+    		console.log(event);
     		recentInput += char;
     		textEntry.text = recentInput;
+    		//textEntry.text += char;
     	}
     });
 }
 
+var line_h = 20;
+var line = 0;
+var input_line = 0;
+
+var input_history = [];
+var MAX_Q_LEN = 20;
+
+var entryArray = {
+	mark : [],
+	content : []
+}
+
 function drawInputBox() {
+	textStyle_input_mark = { font: "bold 18px sans-serif", fill: "#fff", align: "center" };
 	game.add.image(0,420,"inputBox");
 	game.add.text(10, 420, ":", textStyle_input_mark);
 	game.add.image(0,0,"logo");
@@ -70,12 +94,16 @@ function drawInputBox() {
 
 function moveUpEntries() {
 	for (var i = 0; i < (entryArray.mark).length; i++) {
+		console.log("entry mark : "+entryArray.mark[i]);
 		(entryArray.mark[i]).y -= line_h;
 		(entryArray.content[i]).y -= line_h;
 	}
 }
 
-function make_line(recentInput) {		
+function make_line(recentInput) {	
+	textStyle_input = { font: "14px Courier", fill: "#fff"};
+	textStyle_comm = { font : "14px Courier", fill: "#50BCDF"};
+	
 	var comm = command(recentInput);
 	
 	printUserInput(recentInput);
@@ -83,10 +111,13 @@ function make_line(recentInput) {
 }
 
 function printUserInput(recentInput) {
-	if(line < MAX_LINE_NUM) line += 1;
+	if(line < MAX_Q_LEN) line += 1;
 	input_line += 1;
 	
-	var markEntry = game.add.text(10, line_h*line, input_line, textStyle_line_mark);
+	textStyle_input = { font: "16px Courier", fill: "#fff"};
+	textStyle_line = { font: "14px Courier", fill: "#ffff00"};
+	
+	var markEntry = game.add.text(10, line_h*line, input_line, textStyle_line);
 	var userInputEntry = game.add.text(30, line_h*line, recentInput, textStyle_input);
 	
 	(entryArray.mark).push(markEntry);
@@ -96,24 +127,19 @@ function printUserInput(recentInput) {
 function printCommand(comm) {
 	line += 1;
 	
-	var markEntry = game.add.text(10, line_h*line, ">", textStyle_comm_mark);
-	var commInputEntry = game.add.text(20, line_h*line, comm, textStyle_comm);	
+	textStyle_comm = { font : "14px Courier", fill: "#50BCDF"};
+	textStyle_line = { font: "14px Courier", fill: "#ffff00"};
+	
+	var markEntry = game.add.text(10, line_h*line, ">", textStyle_comm);
+	var commInputEntry = game.add.text(20, line_h*line, comm, textStyle_line);	
 	
 	(entryArray.mark).push(markEntry);
 	(entryArray.content).push(commInputEntry);
 	
-	if(line >= MAX_LINE_NUM) {
+	if(line >= MAX_Q_LEN) {
 		console.log("display is full. move up entries");
 		moveUpEntries();
 	}
-}
-
-function clear() {
-	for (var i = 0; i < (entryArray.mark).length; i++) {
-		(entryArray.mark[i]).text = '';
-		(entryArray.content[i]).text = '';
-	} 
-	line = -2;
 }
 
 function command(recentInput) {
@@ -141,4 +167,13 @@ function command(recentInput) {
 	else {
 		return "unvalid command. check commands list with '/help'";
 	}
+}
+
+function clear() {
+	for (var i = 0; i < (entryArray.mark).length; i++) {
+		console.log("entry mark : "+entryArray.mark[i]);
+		(entryArray.mark[i]).text = '';
+		(entryArray.content[i]).text = '';
+	} 
+	line = -2;
 }

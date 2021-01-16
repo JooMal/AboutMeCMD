@@ -1,9 +1,3 @@
-var textStyle_info ={ font: "16px sans-serif", fill: "#46c0f9", align: "center" };
-var textStyle_input_mark = { font: "bold 16px sans-serif", fill: "#fff", align: "center" };
-var textStyle_input = { font: "16px Courier", fill: "#fff"};
-var textStyle_line_mark = { font: "16x Courier", fill: "#ffff00"};
-var textStyle_comm_mark = { font: "16x Courier", fill: "#50BCDF"};
-var textStyle_comm = { font: "14px Courier", fill: "#ffff00"};
 var textEntry;
 var line_h = 20;
 var line = 0;
@@ -15,11 +9,37 @@ var entryArray = {
 	content : []
 };
 
+/*
+ * ------------------- User Variables -------------------
+ * textStyle_info : fail_load_logo_message의 textStyle
+ * textStyle_input_mark : 유저 input 앞에 붙는 마크(:)의 textStyle
+ * textStyle_input : cmd창 하단에 타이핑되는 text의 textStyle
+ * textStyle_line_mark : 입력 후 cmd창에 추가되는 line의 line number의 textStyle
+ * textStyle_comm_mark : input의 응답으로 나타나는 command mark(>)의 textStyle
+ * textStyle_comm : input의 응답으로 나타나는 command의 textStyle
+ * */
+// textStyles
+var textStyle_info ={ font: "16px sans-serif", fill: "#46c0f9", align: "center" };
+var textStyle_input_mark = { font: "bold 16px sans-serif", fill: "#fff", align: "center" };
+var textStyle_input = { font: "16px Courier", fill: "#fff"};
+var textStyle_line_mark = { font: "16x Courier", fill: "#ffff00"};
+var textStyle_comm_mark = { font: "16x Courier", fill: "#50BCDF"};
+var textStyle_comm = { font: "14px Courier", fill: "#ffff00"};
+
+// context and messages
+var logo_img_context = "assets/images/logo.jpg";
+var inputBox_context = "assets/images/cmdGameInputBox.jpg";
+var start_message = "HELLO!";
+var start_message_output = "welcome! type /HELP for information!";
+var fail_load_logo_message = "ABOUT JOOMAL";
+var cmd_backgroundColor = "#061F27";
+/* ------------------- User Variables ------------------- */
+
 var config = {
 		type: Phaser.AUTO,
 		width : 600,
 		height : 450,
-		backgroundColor: '#061F27',
+		backgroundColor: cmd_backgroundColor,
 		scene: {
 			preload: preload,
 			create: create
@@ -27,27 +47,22 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-//var game = new Phaser.Game(600, 450, Phaser.AUTO, null, {preload:preload, create:create});
 
 function preload() {
-	console.log("--preload start--");
-	this.load.image("logo", "assets/images/logo.jpg");
-	this.load.image("inputBox", "assets/images/cmdGameInputBox.jpg");
+	this.load.image("logo", logo_img_context);
+	this.load.image("inputBox", inputBox_context);
 }
 
 function create ()
 {
-	console.log("---create cmd starts---");
-	
 	var cursors = this.input.keyboard.createCursorKeys();
 
-	//this.stage.backgroundColor = "#061F27";
 	this.add.image(300,430,"inputBox");
 	this.add.text(10, 420, ":", textStyle_input_mark);
-	this.add.text(470, 0, "ABOUT JOOMAL", textStyle_info); // if fail to load logo image, this text will be displayed
+	this.add.text(470, 0, fail_load_logo_message, textStyle_info); // if fail to load logo image, this text will be displayed
 	this.add.image(300,10,"logo");
 	
-	make_line(this,"HELLO!");
+	make_line(this,start_message);
 	get_keys(this);
 
 }
@@ -77,7 +92,7 @@ function get_keys(game) {
 			recentInput += char;
     		textEntry.text = recentInput;
 		}
-		else if(event.keyCode == 191) {
+		else if(event.keyCode == 191) { //Slash
 			recentInput += '/';
 			textEntry.text = recentInput;
 		}
@@ -146,8 +161,8 @@ function command(recentInput) {
 	if(recentInput == "/HELP") {
 		return command_list;
 	}
-	else if(recentInput == "HELLO!"){
-		return "welcome! type /HELP for information!";
+	else if(recentInput == start_message){
+		return start_message_output;
 	}
 	else if(recentInput == "/STACK") {
 		return "c/c++, python, java, jsp, mysql/oracle, linux";

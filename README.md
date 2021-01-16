@@ -62,5 +62,6 @@ cmd 하단의 input Box를 변경할 수 있습니다. 기존 코드는 cmd창�
 ---
 
 <a name="dev"></a>
-### 개발일지
+### 개발일지와 후기
+[깃 블로그](https://joomal.github.io//about-me-with-cmd/)에 업로드되어있습니다.  
 

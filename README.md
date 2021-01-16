@@ -45,11 +45,13 @@ cmd 하단의 input Box를 변경할 수 있습니다. 기존 코드는 cmd창�
 `main.js`의 command function에서 명령어와 이에 대한 응답 메세지를 추가하거나 수정할 수 있습니다.  
 
 ### 깃블로그 업로드
-1. git page 레파지토리를 생성해 변경한 코드를 첨부합니다. 반드시 첨부되어야 하는 내용은 `assets` 폴더와 `index.html`입니다.
+1. git page 레파지토리를 생성해 변경한 코드를 첨부합니다. 반드시 첨부되어야 하는 내용은 `assets` 폴더와 `index.html`입니다.  
+
 <img src="img/fileTree.JPG"></img>  
-2. 해당 레파지토리의 index.html를 실행했을 때의 정상작동 여부를 파악한 후, 정상작동한다면 해당 주소를 복사합니다.
+
+2. 해당 레파지토리의 index.html를 실행했을 때의 정상작동 여부를 파악한 후, 정상작동한다면 해당 주소를 복사합니다.  
 3. 첨부를 원하는 깃블로그 페이지에 다음과 같은 html 코드를 삽입합니다. 레파지토리 주소는 보안 문제로 반드시 `https://`로 시작해야 하며, 
-`index.html`로 끝납니다.
+`index.html`로 끝납니다.  
 
 ```html
 <iframe width="600" height="450" src="{레파지토리 주소}" frameborder="0" scrolling="no" align="center"> <p> 브라우저가 iframe 요소를 지원하지 않습니다. </p></iframe>

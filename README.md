@@ -13,6 +13,7 @@
 cmd 스타일로 자신을 소개할 수 있는 Phaser 기반 웹 어플리케이션입니다. (Phaser는 3.5.x 버전을 사용했습니다.)  
 [해당 페이지](https://joomal.github.io/AboutMeCMD/index.html)에서 사용해보실 수 있습니다.  
 아직 적용 중인 화면이지만, 실제 깃블로그에서는 [해당 페이지](https://joomal.github.io/about/)처럼 사용하고 있습니다.  
+Fork하시기 전에는 ✨Star 부탁드립니다 👍  
 
 ---
 

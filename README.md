@@ -19,7 +19,7 @@ Fork하시기 전에는 ✨Star 부탁드립니다 👍
 
 <a name="use"></a>
 ## 사용법
-자신의 깃블로그에 삽입하기 위해서는 해당 레파지토리를 clone한 후, `codeSrcFull` 폴더 > `cmdGame` 폴더 > `assets`폴더와 `index.html`을 다운로드 받습니다.  
+자신의 깃블로그에 삽입하기 위해서는 해당 레파지토리를 fork > clone한 후, `codeSrcFull` 폴더 > `cmdGame` 폴더 > `assets`폴더와 `index.html`을 다운로드 받습니다.  
 <br>
 수정할 수 있는 사항은 다음과 같습니다.
 

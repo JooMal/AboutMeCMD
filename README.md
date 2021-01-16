@@ -9,7 +9,7 @@
 
 <a name="intro"></a>
 ## 소개
-<img src="img/aboutMeCmd_img.png"></img>
+<img src="img/aboutMeCmd_img.png"></img>  
 cmd 스타일로 자신을 소개할 수 있는 Phaser 기반 웹 어플리케이션입니다. 
 
 ---

@@ -5,10 +5,14 @@
 2. <a href="#use">사용법</a>
 3. <a href="#dev">개발일지</a>
 
+---
+
 <a name="intro"></a>
 ## 소개
 <img src="img/aboutMeCmd_img.png"></img>
 cmd 스타일로 자신을 소개할 수 있는 Phaser 기반 웹 어플리케이션입니다. 
+
+---
 
 <a name="use"></a>
 ## 사용법
@@ -36,6 +40,8 @@ cmd 하단의 input Box를 변경할 수 있습니다. 기존 코드는 cmd창�
 
 ### 명령어 추가 및 변경
 `main.js`의 command function에서 명령어와 이에 대한 응답 메세지를 추가하거나 수정할 수 있습니다.  
+
+---
 
 <a name="dev"></a>
 ### 개발일지

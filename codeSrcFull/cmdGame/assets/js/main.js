@@ -9,6 +9,7 @@ var line_h = 20;
 var line = 0;
 var input_line = 0;
 var MAX_LINE_NUM = 20;
+var firstStart = true;
 var entryArray = {
 	mark : [],
 	content : []
@@ -46,7 +47,9 @@ function create ()
 	this.add.text(470, 0, "ABOUT JOOMAL", textStyle_info); // if fail to load logo image, this text will be displayed
 	this.add.image(300,10,"logo");
 	
+	make_line(this,"HELLO!");
 	get_keys(this);
+
 }
 
 function get_keys(game) {
@@ -142,6 +145,9 @@ function command(recentInput) {
 	
 	if(recentInput == "/HELP") {
 		return command_list;
+	}
+	else if(recentInput == "HELLO!"){
+		return "welcome! type /HELP for information!";
 	}
 	else if(recentInput == "/STACK") {
 		return "c/c++, python, java, jsp, mysql/oracle, linux";
